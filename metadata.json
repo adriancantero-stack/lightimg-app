@@ -1,0 +1,5 @@
+{
+  "name": "LightIMG.app",
+  "description": "A minimalist, Apple-inspired image compression tool that optimizes PNG, JPG, and WebP files while maintaining visual quality.",
+  "requestFramePermissions": []
+}
