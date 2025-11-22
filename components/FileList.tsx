@@ -155,33 +155,31 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
             )}
           </div>
 
-          <div className="flex w-full md:w-auto gap-3">
-            {allDone ? (
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+             {doneFiles.length > 1 && (
               <button
-                onClick={() => window.location.reload()}
-                className="w-full md:w-auto px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl font-medium text-sm hover:bg-gray-50 transition-all shadow-sm"
+                onClick={handleDownloadAll}
+                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm active:scale-95"
               >
-                {t('fileList.startOver')}
+                <DownloadIcon className="w-4 h-4" />
+                {t('fileList.downloadAll', { count: doneFiles.length })}
               </button>
-            ) : (
+            )}
+            
+            {readyCount > 0 && (
               <button
                 onClick={onCompress}
-                disabled={isCompressing || readyCount === 0}
-                className={`
-                    w-full md:w-auto px-8 py-3 rounded-xl font-medium text-sm transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2
-                    ${isCompressing || readyCount === 0
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
-                    : 'bg-apple-blue text-white hover:bg-blue-600 hover:scale-[1.02] active:scale-95'
-                  }
-                  `}
+                disabled={isCompressing}
+                className={`flex-1 sm:flex-none w-full sm:w-auto px-8 py-2.5 bg-apple-blue text-white text-sm font-medium rounded-full shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 ${isCompressing ? 'opacity-75 cursor-wait' : ''
+                  }`}
               >
                 {isCompressing ? (
                   <>
                     <LoaderIcon className="w-4 h-4 animate-spin" />
-                    {t('fileList.processing')}
+                    {t('fileList.compressing')}
                   </>
                 ) : (
-                  <>{t('fileList.compressAll')}</>
+                  t('fileList.compressAll')
                 )}
               </button>
             )}
