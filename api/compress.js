@@ -1,7 +1,5 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import multer from 'multer';
-import { Buffer } from 'buffer';
-import {
+const multer = require('multer');
+const {
     MAX_FILE_SIZE_BYTES,
     compressJPEG,
     compressPNG,
@@ -12,7 +10,7 @@ import {
     convertAndCompressHEIC,
     convertAndCompressBMP,
     convertAndCompressTIFF,
-} from '../server/compression-config';
+} = require('../server/compression-config');
 
 // Configure multer for memory storage
 const upload = multer({
@@ -21,9 +19,9 @@ const upload = multer({
 });
 
 // Helper to run middleware
-function runMiddleware(req: any, res: any, fn: any) {
+function runMiddleware(req, res, fn) {
     return new Promise((resolve, reject) => {
-        fn(req, res, (result: any) => {
+        fn(req, res, (result) => {
             if (result instanceof Error) {
                 return reject(result);
             }
@@ -32,7 +30,7 @@ function runMiddleware(req: any, res: any, fn: any) {
     });
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -52,7 +50,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Run multer middleware
         await runMiddleware(req, res, upload.single('file'));
 
-        const file = (req as any).file;
+        const file = req.file;
         if (!file) {
             res.status(400).json({ error: 'No file uploaded' });
             return;
@@ -63,7 +61,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const originalBuffer = file.buffer;
         let mimetype = file.mimetype;
         let originalName = file.originalname;
-        let processedBuffer: Buffer;
+        let processedBuffer;
 
         // HEIC/HEIF: Convert to JPEG
         if (mimetype === 'image/heic' || mimetype === 'image/heif') {
@@ -72,9 +70,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 processedBuffer = await convertAndCompressHEIC(originalBuffer);
                 mimetype = 'image/jpeg';
                 originalName = originalName.replace(/\.(heic|heif)$/i, '.jpg');
-            } catch (heicError: unknown) {
+            } catch (heicError) {
                 console.error('[HEIC] Conversion failed:', heicError);
-                throw new Error(`HEIC conversion failed: ${heicError instanceof Error ? heicError.message : 'Unknown error'}`);
+                throw new Error(`HEIC conversion failed: ${heicError.message || 'Unknown error'}`);
             }
         } else {
             // Process other formats
@@ -130,21 +128,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         res.setHeader('X-Original-Format', file.mimetype);
         res.send(processedBuffer);
 
-    } catch (err: unknown) {
+    } catch (err) {
         console.error('[API] Error processing image:', err);
-        if (err && typeof err === 'object' && 'code' in err && err.code === 'LIMIT_FILE_SIZE') {
+        if (err && err.code === 'LIMIT_FILE_SIZE') {
             res.status(413).json({ error: 'File too large' });
             return;
         }
         res.status(500).json({
             error: 'Image processing failed',
-            message: err instanceof Error ? err.message : 'Unknown error'
+            message: err.message || 'Unknown error'
         });
     }
-}
+};
 
 // Disable body parsing, multer will handle it
-export const config = {
+module.exports.config = {
     api: {
         bodyParser: false,
     },

@@ -46,12 +46,23 @@ export const COMPRESSION_CONFIG = {
         multipass: true,
         plugins: ['preset-default'], // Minify, remove metadata, clean up
     },
+    heic: {
+        quality: 80, // Quality for HEIC conversion to JPEG
+    },
+    bmp: {
+        quality: 80, // Quality for BMP conversion to JPEG
+        mozjpeg: true,
+    },
+    tiff: {
+        quality: 80, // Quality for TIFF conversion to JPEG
+        mozjpeg: true,
+    },
 };
 
 /**
  * Compress JPEG/JPG images
  */
-export async function compressJPEG(buffer: Buffer): Promise<Buffer> {
+async function compressJPEG(buffer) {
     return sharp(buffer)
         .jpeg(COMPRESSION_CONFIG.jpeg)
         .toBuffer();
@@ -60,7 +71,7 @@ export async function compressJPEG(buffer: Buffer): Promise<Buffer> {
 /**
  * Compress PNG images
  */
-export async function compressPNG(buffer: Buffer): Promise<Buffer> {
+async function compressPNG(buffer) {
     return sharp(buffer)
         .png(COMPRESSION_CONFIG.png)
         .toBuffer();
@@ -69,7 +80,7 @@ export async function compressPNG(buffer: Buffer): Promise<Buffer> {
 /**
  * Compress WebP images
  */
-export async function compressWebP(buffer: Buffer): Promise<Buffer> {
+async function compressWebP(buffer) {
     return sharp(buffer)
         .webp(COMPRESSION_CONFIG.webp)
         .toBuffer();
@@ -78,7 +89,7 @@ export async function compressWebP(buffer: Buffer): Promise<Buffer> {
 /**
  * Compress AVIF images
  */
-export async function compressAVIF(buffer: Buffer): Promise<Buffer> {
+async function compressAVIF(buffer) {
     return sharp(buffer)
         .avif(COMPRESSION_CONFIG.avif)
         .toBuffer();
