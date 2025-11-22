@@ -96,9 +96,9 @@ async function compressAVIF(buffer) {
 }
 
 /**
- * Compress GIF images (preserves animation)
+ * Compress GIF images
  */
-export async function compressGIF(buffer: Buffer): Promise<Buffer> {
+async function compressGIF(buffer) {
     return sharp(buffer, { animated: true })
         .gif(COMPRESSION_CONFIG.gif)
         .toBuffer();
@@ -107,12 +107,11 @@ export async function compressGIF(buffer: Buffer): Promise<Buffer> {
 /**
  * Optimize SVG images
  */
-export function optimizeSVG(buffer: Buffer): Buffer {
+function optimizeSVG(buffer) {
     const svgString = buffer.toString('utf8');
     const result = optimize(svgString, {
         multipass: true,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        plugins: ['preset-default' as any], // svgo type issue with string plugins
+        plugins: ['preset-default'],
     });
     return Buffer.from(result.data);
 }
@@ -121,7 +120,7 @@ export function optimizeSVG(buffer: Buffer): Buffer {
  * Convert HEIC/HEIF to JPEG and compress
  * HEIC is converted to JPEG for maximum compatibility across browsers and devices
  */
-export async function convertAndCompressHEIC(buffer: Buffer): Promise<Buffer> {
+async function convertAndCompressHEIC(buffer) {
     // Step 1: Convert HEIC to JPEG using heic-convert (pure JS/WASM)
     const jpegBuffer = await heicConvert({
         buffer: buffer,
@@ -137,9 +136,9 @@ export async function convertAndCompressHEIC(buffer: Buffer): Promise<Buffer> {
  * Convert BMP to JPEG and compress
  * BMP is converted to JPEG for better compression and compatibility
  */
-export async function convertAndCompressBMP(buffer: Buffer): Promise<Buffer> {
+async function convertAndCompressBMP(buffer) {
     return sharp(buffer)
-        .jpeg(COMPRESSION_CONFIG.jpeg)
+        .jpeg(COMPRESSION_CONFIG.bmp)
         .toBuffer();
 }
 
@@ -147,8 +146,21 @@ export async function convertAndCompressBMP(buffer: Buffer): Promise<Buffer> {
  * Convert TIFF to JPEG and compress
  * TIFF is converted to JPEG for better compression and compatibility
  */
-export async function convertAndCompressTIFF(buffer: Buffer): Promise<Buffer> {
+async function convertAndCompressTIFF(buffer) {
     return sharp(buffer)
-        .jpeg(COMPRESSION_CONFIG.jpeg)
+        .jpeg(COMPRESSION_CONFIG.tiff)
         .toBuffer();
 }
+
+module.exports = {
+    MAX_FILE_SIZE_BYTES,
+    compressJPEG,
+    compressPNG,
+    compressWebP,
+    compressAVIF,
+    compressGIF,
+    optimizeSVG,
+    convertAndCompressHEIC,
+    convertAndCompressBMP,
+    convertAndCompressTIFF,
+};
