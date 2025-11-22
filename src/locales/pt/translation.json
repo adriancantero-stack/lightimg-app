@@ -1,0 +1,74 @@
+{
+    "hero": {
+        "title": "Deixe suas imagens mais leves. Instantaneamente.",
+        "subtitle": "Comprima imagens, mantenha a qualidade. Custo Zero.",
+        "description": "Otimize seus arquivos <1>PNG</1>, <1>JPG</1>, <1>WebP</1> e <1>HEIC</1> com eficiência. Compressão inteligente que reduz o tamanho do arquivo, não a fidelidade visual.",
+        "dropzone": "Arraste suas imagens aqui",
+        "browse": "ou clique para procurar arquivos (até 10MB cada)",
+        "secure": "Processamento seguro. Os arquivos são excluídos automaticamente após o processamento."
+    },
+    "header": {
+        "howItWorks": "Como funciona",
+        "faq": "FAQ",
+        "contact": "Contato"
+    },
+    "footer": {
+        "privacy": "Privacidade",
+        "terms": "Termos",
+        "rights": "Todos os direitos reservados."
+    },
+    "fileList": {
+        "ready": "Pronto",
+        "compressing": "Comprimindo...",
+        "download": "Baixar",
+        "filesSelected": "arquivo(s) selecionado(s)",
+        "allDone": "Todas as otimizações concluídas",
+        "startOver": "Começar de novo",
+        "compressAll": "Comprimir todas as imagens",
+        "processing": "Processando...",
+        "heicConverted": "HEIC detectado — convertido para JPG para máxima compatibilidad e otimizado."
+    },
+    "howItWorks": {
+        "title": "Como Funciona",
+        "step1": "Envie suas imagens",
+        "step2": "Nós comprimimos",
+        "step3": "Baixe arquivos otimizados"
+    },
+    "privacy": {
+        "title": "Política de Privacidade",
+        "lastUpdated": "Última atualização: 21 de novembro de 2025",
+        "intro": "No LightIMG (lightimg.app), acessível em https://lightimg.app, uma de nossas principais prioridades é a privacidade de nossos visitantes. Este documento de Política de Privacidade contém tipos de informações que são coletadas e registradas pelo LightIMG e como as usamos.",
+        "infoCollectTitle": "Informações que Coletamos",
+        "infoCollect": "Não coletamos nenhuma informação pessoal. Não exigimos que você crie uma conta. As imagens que você envia são usadas exclusivamente para fins de compressão e são excluídas imediatamente após a conclusão do processo.",
+        "logFilesTitle": "Arquivos de Log",
+        "logFiles": "O LightIMG segue um procedimento padrão de uso de arquivos de log. Esses arquivos registram os visitantes quando eles visitam sites. Todas as empresas de hospedagem fazem isso e faz parte da análise dos serviços de hospedagem. As informações coletadas pelos arquivos de log incluem endereços de protocolo de internet (IP), tipo de navegador, provedor de serviços de Internet (ISP), carimbo de data e hora, páginas de referência/saída e possivelmente o número de cliques. Estes não estão vinculados a nenhuma informação que seja pessoalmente identificável.",
+        "cookiesTitle": "Cookies e Web Beacons",
+        "cookies": "Como qualquer outro site, o LightIMG usa 'cookies'. Esses cookies são usados para armazenar informações, incluindo as preferências dos visitantes e as páginas do site que o visitante acessou ou visitou. As informações são usadas para otimizar a experiência dos usuários, personalizando o conteúdo da nossa página da web com base no tipo de navegador dos visitantes e/ou outras informações.",
+        "contactTitle": "Fale Conosco",
+        "contact": "Se você tiver dúvidas adicionais ou precisar de mais informações sobre nossa Política de Privacidade, não hesite em nos contatar em support@lightimg.app."
+    },
+    "terms": {
+        "title": "Termos de Serviço",
+        "lastUpdated": "Última atualização: 21 de novembro de 2025",
+        "section1Title": "1. Termos",
+        "section1": "Ao acessar este site, acessível em https://lightimg.app, você concorda em ficar vinculado a estes Termos e Condições de Uso do Site e concorda que é responsável pelo acordo com quaisquer leis locais aplicáveis. Se você discordar de algum destes termos, está proibido de acessar este site.",
+        "section2Title": "2. Licença de Uso",
+        "section2": "É concedida permissão para baixar temporariamente uma cópia dos materiais no site do LightIMG apenas para visualização transitória pessoal e não comercial. Esta é a concessão de uma licença, não uma transferência de título, e sob esta licença você não pode:",
+        "section2List1": "modificar ou copiar os materiais;",
+        "section2List2": "usar os materiais para qualquer finalidade comercial ou para qualquer exibição pública;",
+        "section2List3": "tentar fazer engenharia reversa de qualquer software contido no site do LightIMG;",
+        "section2List4": "remover quaisquer direitos autorais ou outras notações de propriedade dos materiais; ou",
+        "section2List5": "transferir os materiais para outra pessoa ou \"espelhar\" os materiais em qualquer outro servidor.",
+        "section3Title": "3. Isenção de Responsabilidade",
+        "section3": "Todos os materiais no site do LightIMG são fornecidos \"como estão\". O LightIMG não oferece garantias, sejam expressas ou implícitas, portanto, nega todas as outras garantias. Além disso, o LightIMG não faz nenhuma representação relativa à precisão ou resultados prováveis do uso dos materiais em seu site ou de outra forma relacionados a esses materiais ou em quaisquer sites vinculados a este site.",
+        "section4Title": "4. Limitações",
+        "section4": "O LightIMG ou seus fornecedores não serão responsabilizados por quaisquer danos que surjam com o uso ou a incapacidade de usar os materiais no site do LightIMG, mesmo que o LightIMG ou um representante autorizado deste site tenha sido notificado, oralmente ou por escrito, da possibilidade de tais danos.",
+        "section5Title": "5. Contato",
+        "section5": "Se você tiver alguma dúvida sobre estes Termos, entre em contato conosco em support@lightimg.app."
+    },
+    "contactPage": {
+        "title": "Contato",
+        "subtitle": "Tem perguntas, sugestões ou precisa de suporte? Adoraríamos ouvir de você.",
+        "emailLabel": "Envie um email para"
+    }
+}

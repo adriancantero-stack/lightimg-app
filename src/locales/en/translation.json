@@ -1,0 +1,74 @@
+{
+    "hero": {
+        "title": "Make Images Lighter. Instantly.",
+        "subtitle": "Compress images, keep the quality. Zero Cost.",
+        "description": "Optimize your <1>PNG</1>, <1>JPG</1>, <1>WebP</1>, and <1>HEIC</1> files efficiently. Smart compression that reduces file size, not visual fidelity.",
+        "dropzone": "Drop your images here",
+        "browse": "or click to browse files (up to 10MB each)",
+        "secure": "Secure processing. Files are automatically deleted after processing."
+    },
+    "header": {
+        "howItWorks": "How it works",
+        "faq": "FAQ",
+        "contact": "Contact"
+    },
+    "footer": {
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "rights": "All rights reserved."
+    },
+    "fileList": {
+        "ready": "Ready",
+        "compressing": "Compressing...",
+        "download": "Download",
+        "filesSelected": "file(s) selected",
+        "allDone": "All optimizations complete",
+        "startOver": "Start Over",
+        "compressAll": "Compress All Images",
+        "processing": "Processing...",
+        "heicConverted": "HEIC detected — converted to JPG for maximum compatibility and optimized."
+    },
+    "howItWorks": {
+        "title": "How It Works",
+        "step1": "Upload your images",
+        "step2": "We compress them",
+        "step3": "Download optimized files"
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "lastUpdated": "Last updated: November 21, 2025",
+        "intro": "At LightIMG (lightimg.app), accessible from https://lightimg.app, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by LightIMG and how we use it.",
+        "infoCollectTitle": "Information We Collect",
+        "infoCollect": "We do not collect any personal information. We do not require you to create an account. The images you upload are used solely for the purpose of compression and are deleted immediately after the process is complete.",
+        "logFilesTitle": "Log Files",
+        "logFiles": "LightIMG follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.",
+        "cookiesTitle": "Cookies and Web Beacons",
+        "cookies": "Like any other website, LightIMG uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.",
+        "contactTitle": "Contact Us",
+        "contact": "If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us at support@lightimg.app."
+    },
+    "terms": {
+        "title": "Terms of Service",
+        "lastUpdated": "Last updated: November 21, 2025",
+        "section1Title": "1. Terms",
+        "section1": "By accessing this Website, accessible from https://lightimg.app, you are agreeing to be bound by these Website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing this site.",
+        "section2Title": "2. Use License",
+        "section2": "Permission is granted to temporarily download one copy of the materials on LightIMG's Website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:",
+        "section2List1": "modify or copy the materials;",
+        "section2List2": "use the materials for any commercial purpose or for any public display;",
+        "section2List3": "attempt to reverse engineer any software contained on LightIMG's Website;",
+        "section2List4": "remove any copyright or other proprietary notations from the materials; or",
+        "section2List5": "transfer the materials to another person or \"mirror\" the materials on any other server.",
+        "section3Title": "3. Disclaimer",
+        "section3": "All the materials on LightIMG's Website are provided \"as is\". LightIMG makes no warranties, may it be expressed or implied, therefore negates all other warranties. Furthermore, LightIMG does not make any representations concerning the accuracy or likely results of the use of the materials on its Website or otherwise relating to such materials or on any sites linked to this Website.",
+        "section4Title": "4. Limitations",
+        "section4": "LightIMG or its suppliers will not be hold accountable for any damages that will arise with the use or inability to use the materials on LightIMG's Website, even if LightIMG or an authorize representative of this Website has been notified, orally or written, of the possibility of such damage.",
+        "section5Title": "5. Contact",
+        "section5": "If you have any questions about these Terms, please contact us at support@lightimg.app."
+    },
+    "contactPage": {
+        "title": "Contact",
+        "subtitle": "Have questions, suggestions, or need support? We'd love to hear from you.",
+        "emailLabel": "Email Us At"
+    }
+}

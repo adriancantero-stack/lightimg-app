@@ -1,0 +1,74 @@
+{
+    "hero": {
+        "title": "Haz tus imágenes más ligeras. Al instante.",
+        "subtitle": "Comprime imágenes, mantén la calidad. Costo Cero.",
+        "description": "Optimiza tus archivos <1>PNG</1>, <1>JPG</1>, <1>WebP</1> y <1>HEIC</1> eficientemente. Compresión inteligente que reduce el tamaño, no la fidelidad visual.",
+        "dropzone": "Arrastra tus imágenes aquí",
+        "browse": "o haz clic para buscar archivos (hasta 10MB cada uno)",
+        "secure": "Procesamiento seguro. Los archivos se eliminan automáticamente después del procesamiento."
+    },
+    "header": {
+        "howItWorks": "Cómo funciona",
+        "faq": "Preguntas Frecuentes",
+        "contact": "Contacto"
+    },
+    "footer": {
+        "privacy": "Privacidad",
+        "terms": "Términos",
+        "rights": "Todos los derechos reservados."
+    },
+    "fileList": {
+        "ready": "Listo",
+        "compressing": "Comprimiendo...",
+        "download": "Descargar",
+        "filesSelected": "archivo(s) seleccionado(s)",
+        "allDone": "Todas las optimizaciones completas",
+        "startOver": "Empezar de nuevo",
+        "compressAll": "Comprimir todas las imágenes",
+        "processing": "Procesando...",
+        "heicConverted": "HEIC detectado — convertido a JPG para máxima compatibilidad y optimizado."
+    },
+    "howItWorks": {
+        "title": "Cómo Funciona",
+        "step1": "Sube tus imágenes",
+        "step2": "Las comprimimos",
+        "step3": "Descarga archivos optimizados"
+    },
+    "privacy": {
+        "title": "Política de Privacidad",
+        "lastUpdated": "Última actualización: 21 de noviembre de 2025",
+        "intro": "En LightIMG (lightimg.app), accesible desde https://lightimg.app, una de nuestras principales prioridades es la privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene tipos de información que recopila y registra LightIMG y cómo la usamos.",
+        "infoCollectTitle": "Información que Recopilamos",
+        "infoCollect": "No recopilamos ninguna información personal. No requerimos que cree una cuenta. Las imágenes que sube se utilizan únicamente con el fin de comprimirlas y se eliminan inmediatamente después de que se completa el proceso.",
+        "logFilesTitle": "Archivos de Registro",
+        "logFiles": "LightIMG sigue un procedimiento estándar de uso de archivos de registro. Estos archivos registran a los visitantes cuando visitan sitios web. Todas las empresas de alojamiento hacen esto y es parte de los análisis de los servicios de alojamiento. La información recopilada por los archivos de registro incluye direcciones de protocolo de Internet (IP), tipo de navegador, proveedor de servicios de Internet (ISP), fecha y hora, páginas de referencia/salida y posiblemente el número de clics. Estos no están vinculados a ninguna información que sea personalmente identificable.",
+        "cookiesTitle": "Cookies y Web Beacons",
+        "cookies": "Como cualquier otro sitio web, LightIMG utiliza 'cookies'. Estas cookies se utilizan para almacenar información, incluidas las preferencias de los visitantes y las páginas del sitio web a las que el visitante accedió o visitó. La información se utiliza para optimizar la experiencia de los usuarios personalizando el contenido de nuestra página web según el tipo de navegador de los visitantes y/u otra información.",
+        "contactTitle": "Contáctenos",
+        "contact": "Si tiene preguntas adicionales o requiere más información sobre nuestra Política de Privacidad, no dude en contactarnos en support@lightimg.app."
+    },
+    "terms": {
+        "title": "Términos de Servicio",
+        "lastUpdated": "Última actualización: 21 de noviembre de 2025",
+        "section1Title": "1. Términos",
+        "section1": "Al acceder a este sitio web, accesible desde https://lightimg.app, usted acepta estar sujeto a estos Términos y condiciones de uso del sitio web y acepta que es responsable del acuerdo con las leyes locales aplicables. Si no está de acuerdo con alguno de estos términos, tiene prohibido acceder a este sitio.",
+        "section2Title": "2. Licencia de Uso",
+        "section2": "Se otorga permiso para descargar temporalmente una copia de los materiales en el sitio web de LightIMG solo para visualización transitoria personal y no comercial. Esta es la concesión de una licencia, no una transferencia de título, y bajo esta licencia usted no puede:",
+        "section2List1": "modificar o copiar los materiales;",
+        "section2List2": "utilizar los materiales para cualquier propósito comercial o para cualquier exhibición pública;",
+        "section2List3": "intentar aplicar ingeniería inversa a cualquier software contenido en el sitio web de LightIMG;",
+        "section2List4": "eliminar cualquier derecho de autor u otras notaciones de propiedad de los materiales; o",
+        "section2List5": "transferir los materiales a otra persona o \"reflejar\" los materiales en cualquier otro servidor.",
+        "section3Title": "3. Descargo de Responsabilidad",
+        "section3": "Todos los materiales en el sitio web de LightIMG se proporcionan \"tal cual\". LightIMG no ofrece garantías, ya sean expresas o implícitas, por lo tanto, niega todas las demás garantías. Además, LightIMG no hace ninguna representación con respecto a la precisión o los resultados probables del uso de los materiales en su sitio web o de otra manera relacionados con dichos materiales o en cualquier sitio vinculado a este sitio web.",
+        "section4Title": "4. Limitaciones",
+        "section4": "LightIMG o sus proveedores no serán responsables de ningún daño que surja con el uso o la incapacidad de usar los materiales en el sitio web de LightIMG, incluso si LightIMG o un representante autorizado de este sitio web ha sido notificado, oralmente o por escrito, de la posibilidad de tal daño.",
+        "section5Title": "5. Contacto",
+        "section5": "Si tiene alguna pregunta sobre estos Términos, contáctenos en support@lightimg.app."
+    },
+    "contactPage": {
+        "title": "Contacto",
+        "subtitle": "¿Tiene preguntas, sugerencias o necesita soporte? Nos encantaría saber de usted.",
+        "emailLabel": "Envíenos un correo a"
+    }
+}
