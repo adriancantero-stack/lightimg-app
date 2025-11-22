@@ -117,6 +117,39 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
                     ) : file.status === 'processing' ? (
                       <span className="text-apple-blue animate-pulse">{t('fileList.status.compressing')}... {file.progress ? `${file.progress}%` : ''}</span>
                     ) : (
+                      <span>{formatBytes(file.originalSize)}</span>
+                    )}
+                  </div>
+
+                  {/* Secondary Line 2: Format Info (Optional) */}
+                  {file.status === 'done' && (
+                    <div className="text-[10px] text-gray-400 mt-0.5">
+                      {file.originalFile.name.toLowerCase().endsWith('.heic') || file.originalFile.name.toLowerCase().endsWith('.heif') ? (
+                        <span>HEIC detectado — convertido para JPG para máxima compatibilidade e otimizado.</span>
+                      ) : file.originalFile.name.toLowerCase().endsWith('.tiff') || file.originalFile.name.toLowerCase().endsWith('.tif') ? (
+                        <span>TIFF detectado — convertido para JPG e otimizado.</span>
+                      ) : file.originalFile.name.toLowerCase().endsWith('.bmp') ? (
+                        <span>BMP detectado — convertido para JPG e otimizado.</span>
+                      ) : null}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex-shrink-0 flex items-center gap-2">
+                {file.status === 'done' && (
+                  <button
+                    onClick={() => {
+                      const link = document.createElement('a');
+                      const filename = `optimized-${file.originalFile.name}`;
+                      if (file.compressedBlob) {
+                        const url = URL.createObjectURL(file.compressedBlob);
+                        link.href = url;
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
                         setTimeout(() => window.URL.revokeObjectURL(url), 100);
                       } else if (file.downloadUrl) {
                         link.href = file.downloadUrl;
@@ -156,7 +189,7 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
-             {doneFiles.length > 1 && (
+            {doneFiles.length > 1 && (
               <button
                 onClick={handleDownloadAll}
                 className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm active:scale-95"
@@ -165,7 +198,7 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
                 {t('fileList.downloadAll', { count: doneFiles.length })}
               </button>
             )}
-            
+
             {readyCount > 0 && (
               <button
                 onClick={onCompress}
@@ -186,8 +219,8 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
           </div>
         </div>
       </div>
-      </div >
-      );
+    </div >
+  );
 };
 
-      export default FileList;
+export default FileList;
