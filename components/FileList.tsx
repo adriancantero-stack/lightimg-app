@@ -179,7 +179,19 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
               </div>
             </div>
           ))}
+          import AdUnit from './AdUnit';
+
+// ... (inside FileList component, before the footer actions div)
+
+          ))}
         </div>
+
+        {/* AdSense Slot - Only shows when files are processed */}
+        {doneFiles.length > 0 && (
+          <div className="px-6 py-4 border-t border-gray-50">
+            <AdUnit slot="DOWNLOAD_AREA_SLOT_ID" format="horizontal" label="Advertisement" />
+          </div>
+        )}
 
         <div className="p-4 bg-gray-50 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-xs text-gray-500 font-medium text-center md:text-left">
