@@ -180,7 +180,6 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
               </div>
             </div>
           ))}
-          ))}
         </div>
 
         {/* AdSense Slot - Only shows when files are processed */}
