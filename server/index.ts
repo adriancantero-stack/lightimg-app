@@ -5,6 +5,7 @@ import cors from 'cors';
 import path from 'path';
 import { Buffer } from 'buffer';
 import heicConvert from 'heic-convert';
+import { optimize } from 'svgo';
 
 const app = express();
 const port = 3001;
@@ -17,16 +18,16 @@ app.use(express.json());
 const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 100 * 1024 * 1024 }, // 100MB limit
   fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|webp|heic|heif/;
+    const allowedTypes = /jpeg|jpg|png|webp|heic|heif|avif|gif|bmp|svg|tiff|tif/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
+    const mimetype = allowedTypes.test(file.mimetype) || file.mimetype === 'image/x-ms-bmp' || file.mimetype === 'image/svg+xml' || file.mimetype === 'image/x-tiff';
 
     if (extname && mimetype) {
       return cb(null, true);
     }
-    cb(new Error('Only images (png, jpg, webp, heic, heif) are allowed'));
+    cb(new Error('Only images (png, jpg, webp, heic, heif, avif, gif, bmp, svg, tiff) are allowed'));
   }
 });
 
@@ -62,7 +63,7 @@ app.post('/api/compress', upload.single('image'), async (req, res) => {
           format: 'JPEG',
           quality: 1
         });
-        console.log('[HEIC-DEBUG] heic-convert success. Buffer size:', jpegBuffer.length);
+        console.log('[HEIC-DEBUG] heic-convert success. Buffer size:', Buffer.byteLength(jpegBuffer));
 
         // Pass the converted JPEG to Sharp for standard optimization
         console.log('[HEIC-DEBUG] Starting sharp optimization...');
@@ -93,6 +94,39 @@ app.post('/api/compress', upload.single('image'), async (req, res) => {
         processedBuffer = await sharp(originalBuffer)
           .webp({ quality: 60 })
           .toBuffer();
+      } else if (mimetype === 'image/avif') {
+        processedBuffer = await sharp(originalBuffer)
+          .avif({ quality: 50 })
+          .toBuffer();
+      } else if (mimetype === 'image/gif') {
+        processedBuffer = await sharp(originalBuffer, { animated: true })
+          .gif({ colors: 128 })
+          .toBuffer();
+      } else if (mimetype === 'image/bmp' || mimetype === 'image/x-ms-bmp') {
+        processedBuffer = await sharp(originalBuffer)
+          .jpeg({ quality: 60, mozjpeg: true })
+          .toBuffer();
+
+        // Update metadata for response
+        mimetype = 'image/jpeg';
+        originalName = originalName.replace(/\.bmp$/i, '.jpg');
+      } else if (mimetype === 'image/tiff' || mimetype === 'image/x-tiff') {
+        processedBuffer = await sharp(originalBuffer)
+          .jpeg({ quality: 60, mozjpeg: true })
+          .toBuffer();
+
+        // Update metadata for response
+        mimetype = 'image/jpeg';
+        originalName = originalName.replace(/\.(tiff|tif)$/i, '.jpg');
+      } else if (mimetype === 'image/svg+xml') {
+        const svgString = originalBuffer.toString('utf8');
+        const result = optimize(svgString, {
+          multipass: true,
+          plugins: [
+            'preset-default',
+          ],
+        });
+        processedBuffer = Buffer.from(result.data);
       } else {
         processedBuffer = originalBuffer;
       }
@@ -113,9 +147,9 @@ app.post('/api/compress', upload.single('image'), async (req, res) => {
     res.set('X-Original-Format', req.file.mimetype); // Send original format header for frontend info
     res.send(processedBuffer);
 
-  } catch (error) {
-    console.error('Compression error:', error);
-    res.status(500).json({ error: 'Image compression failed.' });
+  } catch (err) {
+    console.error('Error processing image:', err);
+    res.status(500).json({ error: 'Image processing failed' });
   }
 });
 

@@ -2,9 +2,9 @@
     "hero": {
         "title": "Make Images Lighter. Instantly.",
         "subtitle": "Compress images, keep the quality. Zero Cost.",
-        "description": "Optimize your <1>PNG</1>, <1>JPG</1>, <1>WebP</1>, and <1>HEIC</1> files efficiently. Smart compression that reduces file size, not visual fidelity.",
+        "description": "Optimize your <1>PNG</1>, <1>JPG</1>, <1>WebP</1>, <1>HEIC</1>, <1>AVIF</1>, <1>GIF</1>, <1>BMP</1>, <1>SVG</1>, and <1>TIFF</1> files efficiently. Smart compression that reduces file size, not visual fidelity.",
         "dropzone": "Drop your images here",
-        "browse": "or click to browse files (up to 10MB each)",
+        "browse": "or click to browse files (up to 100MB each)",
         "secure": "Secure processing. Files are automatically deleted after processing."
     },
     "header": {

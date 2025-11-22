@@ -66,7 +66,7 @@ const Hero: React.FC<HeroProps> = ({ onFilesSelected }) => {
             type="file"
             className="hidden"
             multiple
-            accept="image/png, image/jpeg, image/jpg, image/webp, image/heic, image/heif"
+            accept="image/png, image/jpeg, image/jpg, image/webp, image/heic, image/heif, image/avif, image/gif, image/bmp, image/svg+xml, image/tiff"
             onChange={handleFileInput}
           />
 

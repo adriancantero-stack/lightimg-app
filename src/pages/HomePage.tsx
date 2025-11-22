@@ -14,8 +14,8 @@ const HomePage: React.FC = () => {
     const [isCompressing, setIsCompressing] = useState(false);
 
     const handleFilesSelected = useCallback((newFiles: File[]) => {
-        const MAX_SIZE_MB = 10;
-        const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/heic', 'image/heif'];
+        const MAX_SIZE_MB = 100;
+        const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/heic', 'image/heif', 'image/avif', 'image/gif', 'image/bmp', 'image/x-ms-bmp', 'image/svg+xml', 'image/tiff', 'image/x-tiff'];
 
         const validFiles: CompressedFile[] = newFiles
             .filter(file => {
