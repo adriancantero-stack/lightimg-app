@@ -63,55 +63,54 @@ module.exports = async function handler(req, res) {
         let originalName = file.originalname;
         let processedBuffer;
 
-        // HEIC/HEIF: Convert to JPEG
-        if (mimetype === 'image/heic' || mimetype === 'image/heif') {
-            console.log(`[HEIC] Processing HEIC file: ${file.originalname}`);
-            try {
-                processedBuffer = await convertAndCompressHEIC(originalBuffer);
-                mimetype = 'image/jpeg';
-                originalName = originalName.replace(/\.(heic|heif)$/i, '.jpg');
-            } catch (heicError) {
-                console.error('[HEIC] Conversion failed:', heicError);
-                throw new Error(`HEIC conversion failed: ${heicError.message || 'Unknown error'}`);
-            }
-        } else {
-            // Process other formats
-            const ext = originalName.split('.').pop()?.toLowerCase();
+        // Get file extension
+        const ext = originalName.split('.').pop()?.toLowerCase();
 
-            switch (ext) {
-                case 'jpg':
-                case 'jpeg':
-                    processedBuffer = await compressJPEG(originalBuffer);
-                    break;
-                case 'png':
-                    processedBuffer = await compressPNG(originalBuffer);
-                    break;
-                case 'webp':
-                    processedBuffer = await compressWebP(originalBuffer);
-                    break;
-                case 'avif':
-                    processedBuffer = await compressAVIF(originalBuffer);
-                    break;
-                case 'gif':
-                    processedBuffer = await compressGIF(originalBuffer);
-                    break;
-                case 'svg':
-                    processedBuffer = optimizeSVG(originalBuffer);
-                    break;
-                case 'bmp':
-                    processedBuffer = await convertAndCompressBMP(originalBuffer);
-                    mimetype = 'image/jpeg';
-                    originalName = originalName.replace(/\.bmp$/i, '.jpg');
-                    break;
-                case 'tiff':
-                case 'tif':
-                    processedBuffer = await convertAndCompressTIFF(originalBuffer);
-                    mimetype = 'image/jpeg';
-                    originalName = originalName.replace(/\.tiff?$/i, '.jpg');
-                    break;
-                default:
-                    throw new Error(`Unsupported file format: ${ext}`);
-            }
+        // HEIC/HEIF and TIFF are not supported in serverless environment
+        if (mimetype === 'image/heic' || mimetype === 'image/heif' || ext === 'heic' || ext === 'heif') {
+            res.status(400).json({
+                error: 'HEIC format not supported in web version',
+                message: 'HEIC files require native libraries not available in serverless environment. Please convert to JPG/PNG first.'
+            });
+            return;
+        }
+
+        if (ext === 'tiff' || ext === 'tif') {
+            res.status(400).json({
+                error: 'TIFF format not supported in web version',
+                message: 'TIFF files require native libraries not available in serverless environment. Please convert to JPG/PNG first.'
+            });
+            return;
+        }
+
+        // Process supported formats
+        switch (ext) {
+            case 'jpg':
+            case 'jpeg':
+                processedBuffer = await compressJPEG(originalBuffer);
+                break;
+            case 'png':
+                processedBuffer = await compressPNG(originalBuffer);
+                break;
+            case 'webp':
+                processedBuffer = await compressWebP(originalBuffer);
+                break;
+            case 'avif':
+                processedBuffer = await compressAVIF(originalBuffer);
+                break;
+            case 'gif':
+                processedBuffer = await compressGIF(originalBuffer);
+                break;
+            case 'svg':
+                processedBuffer = optimizeSVG(originalBuffer);
+                break;
+            case 'bmp':
+                processedBuffer = await convertAndCompressBMP(originalBuffer);
+                mimetype = 'image/jpeg';
+                originalName = originalName.replace(/\.bmp$/i, '.jpg');
+                break;
+            default:
+                throw new Error(`Unsupported file format: ${ext}`);
         }
 
         const originalSize = originalBuffer.length;

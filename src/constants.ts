@@ -3,24 +3,23 @@
  * These values must match the server-side configuration
  */
 
-// Maximum file size: 100 MB per file
-// This value is also defined in server/compression-config.ts
-export const MAX_FILE_SIZE_BYTES = 100 * 1024 * 1024;
+// Maximum file size: 100 MB
 export const MAX_FILE_SIZE_MB = 100;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
-// Supported image MIME types
+// Allowed image types for upload
+// Note: HEIC and TIFF are not supported in web version due to serverless limitations
 export const ALLOWED_IMAGE_TYPES = [
     'image/png',
     'image/jpeg',
     'image/jpg',
     'image/webp',
-    'image/heic',
-    'image/heif',
     'image/avif',
     'image/gif',
-    'image/bmp',
-    'image/x-ms-bmp',
     'image/svg+xml',
-    'image/tiff',
-    'image/x-tiff',
+    'image/bmp',
+    // 'image/heic', // Not supported in serverless
+    // 'image/heif', // Not supported in serverless
+    // 'image/tiff', // Not supported in serverless
+    // 'image/tif',  // Not supported in serverless
 ];
