@@ -29,6 +29,7 @@ const Footer: React.FC = () => {
             © {currentYear} Light IMG. {t('footer.rights')}
           </div>
         </div>
+      </div>
     </footer>
   );
 };

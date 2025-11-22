@@ -2,6 +2,7 @@ import React from 'react';
 import { CompressedFile } from '../types';
 import { FileIcon, TrashIcon, CheckIcon, LoaderIcon, DownloadIcon } from './Icons';
 import { useTranslation } from 'react-i18next';
+import AdUnit from './AdUnit';
 
 interface FileListProps {
   files: CompressedFile[];
@@ -179,10 +180,6 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
               </div>
             </div>
           ))}
-          import AdUnit from './AdUnit';
-
-// ... (inside FileList component, before the footer actions div)
-
           ))}
         </div>
 
