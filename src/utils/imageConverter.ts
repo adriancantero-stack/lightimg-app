@@ -38,6 +38,12 @@ export async function convertHEICToJPG(file: File): Promise<File> {
                 convertedBlob = await convertBlobToJPEG(pngBlobSingle);
             } catch (secondError) {
                 console.error('[Converter] Second attempt also failed:', secondError);
+
+                // Provide helpful error message
+                const errorMsg = secondError instanceof Error ? secondError.message : '';
+                if (errorMsg.includes('parse') || errorMsg.includes('HEIF')) {
+                    throw new Error('This HEIC file variant is not supported. Please convert it to JPG using your phone\'s Photos app or an online converter first.');
+                }
                 throw new Error('HEIC conversion failed. This file may be corrupted or use an unsupported HEIC variant.');
             }
         }
@@ -53,7 +59,7 @@ export async function convertHEICToJPG(file: File): Promise<File> {
         return convertedFile;
     } catch (error) {
         console.error('[Converter] HEIC conversion failed:', error);
-        throw new Error(`Failed to convert HEIC file. ${error instanceof Error ? error.message : 'Please try a different file or convert to JPG first.'}`);
+        throw new Error(`${error instanceof Error ? error.message : 'Failed to convert HEIC file. Please try converting to JPG first.'}`);
     }
 }
 
