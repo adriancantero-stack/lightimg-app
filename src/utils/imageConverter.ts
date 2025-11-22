@@ -11,13 +11,36 @@ import UTIF from 'utif';
  */
 export async function convertHEICToJPG(file: File): Promise<File> {
     try {
-        console.log(`[Converter] Converting HEIC: ${file.name}`);
+        console.log(`[Converter] Converting HEIC: ${file.name}, size: ${file.size}`);
 
-        const convertedBlob = await heic2any({
-            blob: file,
-            toType: 'image/jpeg',
-            quality: 0.95, // High quality for conversion, will compress later
-        });
+        // heic2any can be picky, try with different options
+        let convertedBlob;
+
+        try {
+            // Try with default settings first
+            convertedBlob = await heic2any({
+                blob: file,
+                toType: 'image/jpeg',
+                quality: 0.95,
+            });
+        } catch (firstError) {
+            console.warn('[Converter] First attempt failed, trying with PNG:', firstError);
+
+            // Fallback: try converting to PNG first, then to JPEG
+            try {
+                const pngBlob = await heic2any({
+                    blob: file,
+                    toType: 'image/png',
+                });
+
+                // Convert PNG to JPEG using canvas
+                const pngBlobSingle = Array.isArray(pngBlob) ? pngBlob[0] : pngBlob;
+                convertedBlob = await convertBlobToJPEG(pngBlobSingle);
+            } catch (secondError) {
+                console.error('[Converter] Second attempt also failed:', secondError);
+                throw new Error('HEIC conversion failed. This file may be corrupted or use an unsupported HEIC variant.');
+            }
+        }
 
         // heic2any can return Blob or Blob[]
         const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
@@ -26,12 +49,56 @@ export async function convertHEICToJPG(file: File): Promise<File> {
         const newFileName = file.name.replace(/\.(heic|heif)$/i, '.jpg');
         const convertedFile = new File([blob], newFileName, { type: 'image/jpeg' });
 
-        console.log(`[Converter] HEIC converted: ${file.size} → ${convertedFile.size} bytes`);
+        console.log(`[Converter] HEIC converted successfully: ${file.size} → ${convertedFile.size} bytes`);
         return convertedFile;
     } catch (error) {
         console.error('[Converter] HEIC conversion failed:', error);
-        throw new Error(`Failed to convert HEIC: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(`Failed to convert HEIC file. ${error instanceof Error ? error.message : 'Please try a different file or convert to JPG first.'}`);
     }
+}
+
+/**
+ * Helper: Convert any blob to JPEG using canvas
+ */
+async function convertBlobToJPEG(blob: Blob): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(blob);
+
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                reject(new Error('Failed to get canvas context'));
+                return;
+            }
+
+            ctx.drawImage(img, 0, 0);
+            URL.revokeObjectURL(url);
+
+            canvas.toBlob(
+                (jpegBlob) => {
+                    if (jpegBlob) {
+                        resolve(jpegBlob);
+                    } else {
+                        reject(new Error('Failed to convert to JPEG'));
+                    }
+                },
+                'image/jpeg',
+                0.95
+            );
+        };
+
+        img.onerror = () => {
+            URL.revokeObjectURL(url);
+            reject(new Error('Failed to load image'));
+        };
+
+        img.src = url;
+    });
 }
 
 /**
