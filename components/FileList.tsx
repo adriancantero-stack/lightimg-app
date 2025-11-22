@@ -31,7 +31,35 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
   if (files.length === 0) return null;
 
   const readyCount = files.filter(f => f.status === 'ready').length;
+  const doneFiles = files.filter(f => f.status === 'done');
   const allDone = files.length > 0 && files.every(f => f.status === 'done');
+
+  const handleDownloadAll = async () => {
+    try {
+      const JSZip = (await import('jszip')).default;
+      const zip = new JSZip();
+
+      // Add each compressed file to ZIP
+      doneFiles.forEach(file => {
+        if (file.compressedBlob) {
+          zip.file(file.originalFile.name, file.compressedBlob);
+        }
+      });
+
+      // Generate and download ZIP
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `lightimg-compressed-${Date.now()}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to generate ZIP:', error);
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto px-6 pb-20 animate-fade-in">
@@ -68,12 +96,6 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
 
                   {/* Secondary Line 1: Reduction Info */}
                   <div className="text-xs text-gray-500">
-                    {file.status === 'converting' && (
-                      <span className="flex items-center gap-1">
-                        <LoaderIcon className="w-3 h-3 animate-spin" />
-                        {t('fileList.status.converting')}
-                      </span>
-                    )}
                     {file.status === 'done' && file.compressedSize ? (
                       <>
                         {((file.originalSize - file.compressedSize) / file.originalSize) * 100 > 0 ? (
@@ -85,83 +107,16 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
                             })}
                           </span>
                         ) : (
-                          <span className="text-gray-400">
-                            {t('fileList.alreadyOptimized')} ({formatBytes(file.originalSize)})
+                          <span className="text-green-600 font-medium">
+                            {t('fileList.alreadyOptimized')} ({formatBytes(file.compressedSize)})
                           </span>
                         )}
                       </>
+                    ) : file.status === 'error' ? (
+                      <span className="text-red-500">{file.error}</span>
+                    ) : file.status === 'processing' ? (
+                      <span className="text-apple-blue animate-pulse">{t('fileList.status.compressing')}... {file.progress ? `${file.progress}%` : ''}</span>
                     ) : (
-                      <span className="text-gray-400">{formatBytes(file.originalSize)}</span>
-                    )}
-                    {file.status === 'error' && (
-                      <span className="text-red-500">
-                        {file.error || 'Failed'}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Secondary Line 2: Format Specific Messages */}
-                  {(file.originalFile.name.toLowerCase().endsWith('.heic') || file.originalFile.name.toLowerCase().endsWith('.heif')) && (
-                    <p className="text-[10px] text-gray-400">
-                      {t('fileList.heicConverted')}
-                    </p>
-                  )}
-                  {file.originalFile.name.toLowerCase().endsWith('.avif') && (
-                    <p className="text-[10px] text-gray-400">
-                      {t('fileList.avifDetected')}
-                    </p>
-                  )}
-                  {file.originalFile.name.toLowerCase().endsWith('.gif') && (
-                    <p className="text-[10px] text-gray-400">
-                      {t('fileList.gifDetected')}
-                    </p>
-                  )}
-                  {file.originalFile.name.toLowerCase().endsWith('.bmp') && (
-                    <p className="text-[10px] text-gray-400">
-                      {t('fileList.bmpConverted')}
-                    </p>
-                  )}
-                  {(file.originalFile.name.toLowerCase().endsWith('.tif') || file.originalFile.name.toLowerCase().endsWith('.tiff')) && (
-                    <p className="text-[10px] text-gray-400">
-                      {t('fileList.tiffConverted')}
-                    </p>
-                  )}
-                  {file.originalFile.name.toLowerCase().endsWith('.svg') && (
-                    <p className="text-[10px] text-gray-400">
-                      {t('fileList.svgOptimized')}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                {file.status === 'ready' && (
-                  <span className="hidden md:inline-block text-xs font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded">
-                    {t('fileList.ready')}
-                  </span>
-                )}
-
-                {file.status === 'compressing' && (
-                  <div className="flex items-center gap-2 text-xs font-medium text-apple-blue">
-                    <LoaderIcon className="w-4 h-4 animate-spin" />
-                    <span className="hidden md:inline">{t('fileList.compressing')} {file.progress ? `${file.progress}%` : ''}</span>
-                  </div>
-                )}
-
-                {file.status === 'done' && (
-                  <button
-                    onClick={() => {
-                      const filename = `lightimg_${file.originalFile.name}`;
-                      const link = document.createElement('a');
-
-                      if (file.compressedBlob) {
-                        const url = window.URL.createObjectURL(file.compressedBlob);
-                        link.href = url;
-                        link.download = filename;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        // Revoke URL after a small delay
                         setTimeout(() => window.URL.revokeObjectURL(url), 100);
                       } else if (file.downloadUrl) {
                         link.href = file.downloadUrl;
@@ -233,8 +188,8 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
           </div>
         </div>
       </div>
-    </div >
-  );
+      </div >
+      );
 };
 
-export default FileList;
+      export default FileList;

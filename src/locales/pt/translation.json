@@ -22,6 +22,8 @@
         "compressing": "Comprimindo...",
         "download": "Baixar",
         "filesSelected": "arquivo(s) selecionado(s)",
+        "downloadShort": "Baixar",
+        "downloadAll": "Baixar Todas ({{count}})",
         "allDone": "Todas as otimizações concluídas",
         "startOver": "Começar de novo",
         "compressAll": "Comprimir todas as imagens",
