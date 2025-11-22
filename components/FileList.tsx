@@ -39,11 +39,11 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
       const JSZip = (await import('jszip')).default;
       const zip = new JSZip();
 
-      // Add each compressed file to ZIP with "optimized-" prefix
+      // Add each compressed file to ZIP with "lightimg-optimized-" prefix
       doneFiles.forEach(file => {
         if (file.compressedBlob) {
           // Use the same naming convention as single download
-          const filename = `optimized-${file.originalFile.name}`;
+          const filename = `lightimg-optimized-${file.originalFile.name}`;
           zip.file(filename, file.compressedBlob);
         }
       });
@@ -145,7 +145,7 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
                   <button
                     onClick={() => {
                       const link = document.createElement('a');
-                      const filename = `optimized-${file.originalFile.name}`;
+                      const filename = `lightimg-optimized-${file.originalFile.name}`;
                       if (file.compressedBlob) {
                         const url = URL.createObjectURL(file.compressedBlob);
                         link.href = url;
