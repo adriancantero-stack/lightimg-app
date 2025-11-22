@@ -35,6 +35,7 @@
         "alreadyOptimized": "Ya optimizado",
         "reducedBy": "Reducido en {{percent}}% ({{original}} → {{optimized}})",
         "status": {
+            "converting": "Convirtiendo a JPG...",
             "optimized": "Optimizado",
             "error": "Error"
         },

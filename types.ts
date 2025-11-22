@@ -1,4 +1,5 @@
-export type FileStatus = 'ready' | 'compressing' | 'done' | 'error';
+// Status of file processing
+export type FileStatus = 'converting' | 'ready' | 'processing' | 'done' | 'error';
 
 export interface CompressedFile {
   id: string;

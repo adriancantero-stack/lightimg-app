@@ -7,6 +7,7 @@ import HowItWorks from '../../components/HowItWorks';
 import Footer from '../../components/Footer';
 import { CompressedFile } from '../../types';
 import { MAX_FILE_SIZE_BYTES, ALLOWED_IMAGE_TYPES } from '../constants';
+import { convertIfNeeded, needsConversion } from '../utils/imageConverter';
 
 // Use a unique ID generator
 const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -17,8 +18,9 @@ const HomePage: React.FC = () => {
 
     const { t } = useTranslation();
 
-    const handleFilesSelected = useCallback((newFiles: File[]) => {
-        const processedFiles: CompressedFile[] = newFiles.map(file => {
+    const handleFilesSelected = useCallback(async (newFiles: File[]) => {
+        // Create initial file entries with "converting" status if needed
+        const initialFiles: CompressedFile[] = newFiles.map(file => {
             const isTypeValid = ALLOWED_IMAGE_TYPES.includes(file.type);
             const isSizeValid = file.size <= MAX_FILE_SIZE_BYTES;
             const id = generateId();
@@ -43,6 +45,16 @@ const HomePage: React.FC = () => {
                 };
             }
 
+            // Check if needs conversion
+            if (needsConversion(file)) {
+                return {
+                    id,
+                    originalFile: file,
+                    status: 'converting' as const,
+                    originalSize: file.size
+                };
+            }
+
             return {
                 id,
                 originalFile: file,
@@ -51,7 +63,37 @@ const HomePage: React.FC = () => {
             };
         });
 
-        setFiles(prev => [...prev, ...processedFiles]);
+        setFiles(prev => [...prev, ...initialFiles]);
+
+        // Convert files that need conversion
+        for (let i = 0; i < newFiles.length; i++) {
+            const file = newFiles[i];
+            const fileEntry = initialFiles[i];
+
+            if (fileEntry.status === 'converting') {
+                try {
+                    const convertedFile = await convertIfNeeded(file);
+
+                    // Update file entry with converted file
+                    setFiles(prev => prev.map(f =>
+                        f.id === fileEntry.id
+                            ? { ...f, originalFile: convertedFile, status: 'ready' }
+                            : f
+                    ));
+                } catch (error) {
+                    console.error('Conversion failed:', error);
+                    setFiles(prev => prev.map(f =>
+                        f.id === fileEntry.id
+                            ? {
+                                ...f,
+                                status: 'error',
+                                error: error instanceof Error ? error.message : 'Conversion failed'
+                            }
+                            : f
+                    ));
+                }
+            }
+        }
     }, [t]);
 
     const handleRemove = useCallback((id: string) => {

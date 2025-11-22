@@ -68,6 +68,12 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
 
                   {/* Secondary Line 1: Reduction Info */}
                   <div className="text-xs text-gray-500">
+                    {file.status === 'converting' && (
+                      <span className="flex items-center gap-1">
+                        <LoaderIcon className="w-3 h-3 animate-spin" />
+                        {t('fileList.status.converting')}
+                      </span>
+                    )}
                     {file.status === 'done' && file.compressedSize ? (
                       <>
                         {((file.originalSize - file.compressedSize) / file.originalSize) * 100 > 0 ? (
