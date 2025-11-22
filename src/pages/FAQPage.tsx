@@ -17,11 +17,11 @@ const FAQPage: React.FC = () => {
         },
         {
             q: "What formats do you support?",
-            a: "We currently support JPG, PNG, and WebP formats."
+            a: "We currently support PNG, JPG, WebP, HEIC, AVIF, GIF, BMP, SVG, and TIFF formats."
         },
         {
             q: "Is there a file size limit?",
-            a: "Yes, currently we support files up to 10MB each to ensure fast processing for everyone."
+            a: "Yes, currently we support files up to 100MB each to ensure fast processing for everyone."
         }
     ];
 

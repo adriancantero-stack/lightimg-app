@@ -17,7 +17,7 @@ const HowItWorksPage: React.FC = () => {
                         <div>
                             <h2 className="text-2xl font-semibold mb-2">{t('howItWorks.step1')}</h2>
                             <p className="text-gray-600 leading-relaxed">
-                                Simply drag and drop your images into the upload area. We support PNG, JPG, and WebP formats.
+                                Simply drag and drop your images into the upload area. We support PNG, JPG, WebP, HEIC, AVIF, GIF, BMP, SVG, and TIFF formats.
                                 Your files are processed securely and are never stored permanently on our servers.
                             </p>
                         </div>

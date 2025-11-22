@@ -1,10 +1,12 @@
 import React, { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import Header from '../../components/Header';
 import Hero from '../../components/Hero';
 import FileList from '../../components/FileList';
 import HowItWorks from '../../components/HowItWorks';
 import Footer from '../../components/Footer';
 import { CompressedFile } from '../../types';
+import { MAX_FILE_SIZE_BYTES, ALLOWED_IMAGE_TYPES } from '../constants';
 
 // Use a unique ID generator
 const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -13,29 +15,44 @@ const HomePage: React.FC = () => {
     const [files, setFiles] = useState<CompressedFile[]>([]);
     const [isCompressing, setIsCompressing] = useState(false);
 
+    const { t } = useTranslation();
+
     const handleFilesSelected = useCallback((newFiles: File[]) => {
-        const MAX_SIZE_MB = 100;
-        const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/heic', 'image/heif', 'image/avif', 'image/gif', 'image/bmp', 'image/x-ms-bmp', 'image/svg+xml', 'image/tiff', 'image/x-tiff'];
+        const processedFiles: CompressedFile[] = newFiles.map(file => {
+            const isTypeValid = ALLOWED_IMAGE_TYPES.includes(file.type);
+            const isSizeValid = file.size <= MAX_FILE_SIZE_BYTES;
+            const id = generateId();
 
-        const validFiles: CompressedFile[] = newFiles
-            .filter(file => {
-                const isTypeValid = ALLOWED_TYPES.includes(file.type);
-                const isSizeValid = file.size <= MAX_SIZE_MB * 1024 * 1024;
+            if (!isTypeValid) {
+                return {
+                    id,
+                    originalFile: file,
+                    status: 'error',
+                    originalSize: file.size,
+                    error: t('fileList.errors.unsupportedFormat')
+                };
+            }
 
-                if (!isTypeValid) alert(`File ${file.name} is not a supported image type.`);
-                if (!isSizeValid) alert(`File ${file.name} is too large (Max ${MAX_SIZE_MB}MB).`);
+            if (!isSizeValid) {
+                return {
+                    id,
+                    originalFile: file,
+                    status: 'error',
+                    originalSize: file.size,
+                    error: t('fileList.errors.tooLarge')
+                };
+            }
 
-                return isTypeValid && isSizeValid;
-            })
-            .map(file => ({
-                id: generateId(),
+            return {
+                id,
                 originalFile: file,
                 status: 'ready',
                 originalSize: file.size
-            }));
+            };
+        });
 
-        setFiles(prev => [...prev, ...validFiles]);
-    }, []);
+        setFiles(prev => [...prev, ...processedFiles]);
+    }, [t]);
 
     const handleRemove = useCallback((id: string) => {
         setFiles(prev => prev.filter(f => f.id !== id));
@@ -96,6 +113,13 @@ const HomePage: React.FC = () => {
         const formData = new FormData();
         formData.append('image', file.originalFile);
 
+        // Progress simulation
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress = Math.min(progress + Math.random() * 10, 90);
+            setFiles(prev => prev.map(f => f.id === file.id ? { ...f, progress: Math.round(progress) } : f));
+        }, 500);
+
         try {
             // Attempt Server Compression
             // Set a timeout so we don't wait too long before falling back
@@ -118,12 +142,14 @@ const HomePage: React.FC = () => {
             const blob = await response.blob();
             const downloadUrl = URL.createObjectURL(blob);
 
+            clearInterval(progressInterval);
             return {
                 ...file,
                 status: 'done',
                 compressedSize: blob.size,
                 compressedBlob: blob,
-                downloadUrl
+                downloadUrl,
+                progress: 100
             };
         } catch (error) {
             console.warn(`Server failed for ${file.originalFile.name}, falling back to offline mode.`, error);
@@ -133,20 +159,24 @@ const HomePage: React.FC = () => {
                 const localBlob = await compressImageLocally(file.originalFile);
                 const downloadUrl = URL.createObjectURL(localBlob);
 
+                clearInterval(progressInterval);
                 return {
                     ...file,
                     status: 'done',
                     compressedSize: localBlob.size,
                     compressedBlob: localBlob,
                     downloadUrl,
-                    error: undefined // Clear error if local succeeded
+                    error: undefined, // Clear error if local succeeded
+                    progress: 100
                 };
             } catch (localError) {
                 console.error("Local compression also failed", localError);
+                clearInterval(progressInterval);
                 return {
                     ...file,
                     status: 'error',
-                    error: 'Compression failed'
+                    error: t('fileList.errors.processingFailed'),
+                    progress: 0
                 };
             }
         }

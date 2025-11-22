@@ -1,6 +1,6 @@
 import React from 'react';
 import { CompressedFile } from '../types';
-import { FileIcon, TrashIcon, CheckIcon, LoaderIcon, DownloadIcon, AlertCircleIcon } from './Icons';
+import { FileIcon, TrashIcon, CheckIcon, LoaderIcon, DownloadIcon } from './Icons';
 import { useTranslation } from 'react-i18next';
 
 interface FileListProps {
@@ -19,12 +19,18 @@ const formatBytes = (bytes: number, decimals = 1) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
+const getFormatBadge = (filename: string) => {
+  const ext = filename.split('.').pop()?.toUpperCase() || '';
+  if (['JPEG', 'JPG'].includes(ext)) return 'JPG';
+  if (['TIF', 'TIFF'].includes(ext)) return 'TIFF';
+  return ext;
+};
+
 const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isCompressing }) => {
   const { t } = useTranslation();
   if (files.length === 0) return null;
 
   const readyCount = files.filter(f => f.status === 'ready').length;
-  const doneCount = files.filter(f => f.status === 'done').length;
   const allDone = files.length > 0 && files.every(f => f.status === 'done');
 
   return (
@@ -33,37 +39,90 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
         <div className="divide-y divide-gray-50">
           {files.map((file) => (
             <div key={file.id} className="p-4 md:p-5 flex items-center justify-between group hover:bg-gray-50 transition-colors">
-              <div className="flex items-center gap-4 overflow-hidden">
-                <div className={`w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center ${file.status === 'done' ? 'bg-green-50 text-green-500' : 'bg-gray-100 text-gray-500'
+              <div className="flex items-center gap-4 overflow-hidden flex-1">
+                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex-shrink-0 flex items-center justify-center ${file.status === 'done' ? 'bg-green-50 text-green-500' : 'bg-gray-100 text-gray-500'
                   }`}>
-                  {file.status === 'done' ? <CheckIcon className="w-6 h-6" /> : <FileIcon className="w-6 h-6" />}
+                  {file.status === 'done' ? <CheckIcon className="w-5 h-5 md:w-6 md:h-6" /> : <FileIcon className="w-5 h-5 md:w-6 md:h-6" />}
                 </div>
 
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-apple-dark truncate max-w-[150px] md:max-w-[300px]">
-                    {file.originalFile.name}
-                  </p>
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="text-gray-400">{formatBytes(file.originalSize)}</span>
-                    {file.status === 'done' && file.compressedSize && (
-                      <>
-                        <span className="text-gray-300">→</span>
-                        <span className="text-apple-dark font-semibold">{formatBytes(file.compressedSize)}</span>
-                        <span className="text-green-500 bg-green-50 px-1.5 py-0.5 rounded text-[10px] font-bold">
-                          - {Math.round(((file.originalSize - file.compressedSize) / file.originalSize) * 100)}%
-                        </span>
-                      </>
+                <div className="min-w-0 flex flex-col gap-0.5">
+                  {/* Main Line: Name + Badge + Status */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded uppercase tracking-wider">
+                      {getFormatBadge(file.originalFile.name)}
+                    </span>
+                    <p className="text-sm font-medium text-apple-dark truncate max-w-[120px] md:max-w-[300px]">
+                      {file.originalFile.name}
+                    </p>
+                    {file.status === 'done' && (
+                      <span className="hidden md:inline-flex text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                        {t('fileList.status.optimized')}
+                      </span>
                     )}
                     {file.status === 'error' && (
-                      <span className="text-red-500 flex items-center gap-1">
+                      <span className="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
+                        {t('fileList.status.error')}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Secondary Line 1: Reduction Info */}
+                  <div className="text-xs text-gray-500">
+                    {file.status === 'done' && file.compressedSize ? (
+                      <>
+                        {((file.originalSize - file.compressedSize) / file.originalSize) * 100 > 0 ? (
+                          <span>
+                            {t('fileList.reducedBy', {
+                              percent: Math.round(((file.originalSize - file.compressedSize) / file.originalSize) * 100),
+                              original: formatBytes(file.originalSize),
+                              optimized: formatBytes(file.compressedSize)
+                            })}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400">
+                            {t('fileList.alreadyOptimized')} ({formatBytes(file.originalSize)})
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      <span className="text-gray-400">{formatBytes(file.originalSize)}</span>
+                    )}
+                    {file.status === 'error' && (
+                      <span className="text-red-500">
                         {file.error || 'Failed'}
                       </span>
                     )}
                   </div>
-                  {/* HEIC Conversion Message */}
+
+                  {/* Secondary Line 2: Format Specific Messages */}
                   {(file.originalFile.name.toLowerCase().endsWith('.heic') || file.originalFile.name.toLowerCase().endsWith('.heif')) && (
-                    <p className="text-[10px] text-gray-400 mt-1">
+                    <p className="text-[10px] text-gray-400">
                       {t('fileList.heicConverted')}
+                    </p>
+                  )}
+                  {file.originalFile.name.toLowerCase().endsWith('.avif') && (
+                    <p className="text-[10px] text-gray-400">
+                      {t('fileList.avifDetected')}
+                    </p>
+                  )}
+                  {file.originalFile.name.toLowerCase().endsWith('.gif') && (
+                    <p className="text-[10px] text-gray-400">
+                      {t('fileList.gifDetected')}
+                    </p>
+                  )}
+                  {file.originalFile.name.toLowerCase().endsWith('.bmp') && (
+                    <p className="text-[10px] text-gray-400">
+                      {t('fileList.bmpConverted')}
+                    </p>
+                  )}
+                  {(file.originalFile.name.toLowerCase().endsWith('.tif') || file.originalFile.name.toLowerCase().endsWith('.tiff')) && (
+                    <p className="text-[10px] text-gray-400">
+                      {t('fileList.tiffConverted')}
+                    </p>
+                  )}
+                  {file.originalFile.name.toLowerCase().endsWith('.svg') && (
+                    <p className="text-[10px] text-gray-400">
+                      {t('fileList.svgOptimized')}
                     </p>
                   )}
                 </div>
@@ -79,7 +138,7 @@ const FileList: React.FC<FileListProps> = ({ files, onRemove, onCompress, isComp
                 {file.status === 'compressing' && (
                   <div className="flex items-center gap-2 text-xs font-medium text-apple-blue">
                     <LoaderIcon className="w-4 h-4 animate-spin" />
-                    <span className="hidden md:inline">{t('fileList.compressing')}</span>
+                    <span className="hidden md:inline">{t('fileList.compressing')} {file.progress ? `${file.progress}%` : ''}</span>
                   </div>
                 )}
 
