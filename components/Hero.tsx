@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { UploadCloudIcon } from './Icons';
 import { useTranslation, Trans } from 'react-i18next';
+import { ALLOWED_IMAGE_TYPES } from '../src/constants';
 
 interface HeroProps {
   onFilesSelected: (files: File[]) => void;
