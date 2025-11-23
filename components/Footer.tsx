@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import AdUnit from './AdUnit';
 
 const Footer: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
+  const currentLang = i18n.language.split('-')[0];
+  const getPath = (path: string) => `/${currentLang}${path}`;
 
   return (
     <footer className="bg-white border-t border-gray-100 py-12">
@@ -20,9 +22,9 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="flex gap-6 text-sm text-gray-600">
-            <Link to="/privacy" className="hover:text-apple-dark transition-colors">{t('footer.privacy')}</Link>
-            <Link to="/terms" className="hover:text-apple-dark transition-colors">{t('footer.terms')}</Link>
-            <Link to="/contact" className="hover:text-apple-dark transition-colors">{t('header.contact')}</Link>
+            <Link to={getPath('/privacy')} className="hover:text-apple-dark transition-colors">{t('footer.privacy')}</Link>
+            <Link to={getPath('/terms')} className="hover:text-apple-dark transition-colors">{t('footer.terms')}</Link>
+            <Link to={getPath('/contact')} className="hover:text-apple-dark transition-colors">{t('header.contact')}</Link>
           </div>
 
           <div className="text-sm text-gray-500">
