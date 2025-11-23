@@ -3,8 +3,9 @@
  * Converts HEIC and TIFF to JPG in the browser before uploading
  */
 
-import heic2any from 'heic2any';
-import UTIF from 'utif';
+// Dynamic imports are used to avoid bloating the main bundle
+// import heic2any from 'heic2any';
+// import UTIF from 'utif';
 
 /**
  * Convert HEIC/HEIF to JPG
@@ -18,6 +19,7 @@ export async function convertHEICToJPG(file: File): Promise<File> {
 
         try {
             // Try with default settings first
+            const heic2any = (await import('heic2any')).default;
             convertedBlob = await heic2any({
                 blob: file,
                 toType: 'image/jpeg',
@@ -28,6 +30,7 @@ export async function convertHEICToJPG(file: File): Promise<File> {
 
             // Fallback: try converting to PNG first, then to JPEG
             try {
+                const heic2any = (await import('heic2any')).default;
                 const pngBlob = await heic2any({
                     blob: file,
                     toType: 'image/png',
@@ -113,6 +116,7 @@ async function convertBlobToJPEG(blob: Blob): Promise<Blob> {
 export async function convertTIFFToJPG(file: File): Promise<File> {
     try {
         console.log(`[Converter] Converting TIFF: ${file.name}`);
+        const UTIF = (await import('utif')).default;
 
         // Read file as ArrayBuffer
         const arrayBuffer = await file.arrayBuffer();
