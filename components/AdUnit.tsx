@@ -20,14 +20,29 @@ const AdUnit: React.FC<AdUnitProps> = ({
     client = import.meta.env.VITE_ADSENSE_CLIENT_ID
 }) => {
     useEffect(() => {
-        // Lazy load AdSense script
-        if (client && !document.querySelector('script[src*="adsbygoogle.js"]')) {
-            const script = document.createElement('script');
-            script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
-            script.async = true;
-            script.crossOrigin = 'anonymous';
-            document.head.appendChild(script);
-        }
+        // Interaction-based lazy loading
+        const loadAdSense = () => {
+            if (client && !document.querySelector('script[src*="adsbygoogle.js"]')) {
+                const script = document.createElement('script');
+                script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
+                script.async = true;
+                script.crossOrigin = 'anonymous';
+                document.head.appendChild(script);
+            }
+        };
+
+        const handleInteraction = () => {
+            loadAdSense();
+            // Remove event listeners after first interaction
+            window.removeEventListener('scroll', handleInteraction);
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('touchstart', handleInteraction);
+        };
+
+        // Add event listeners for interaction
+        window.addEventListener('scroll', handleInteraction, { passive: true });
+        window.addEventListener('click', handleInteraction, { passive: true });
+        window.addEventListener('touchstart', handleInteraction, { passive: true });
 
         try {
             // @ts-ignore
@@ -37,6 +52,12 @@ const AdUnit: React.FC<AdUnitProps> = ({
         } catch (e) {
             console.error('AdSense error:', e);
         }
+
+        return () => {
+            window.removeEventListener('scroll', handleInteraction);
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('touchstart', handleInteraction);
+        };
     }, [client]);
 
     // Development placeholder or if client ID is missing
