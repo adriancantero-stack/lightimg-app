@@ -20,6 +20,15 @@ const AdUnit: React.FC<AdUnitProps> = ({
     client = import.meta.env.VITE_ADSENSE_CLIENT_ID
 }) => {
     useEffect(() => {
+        // Lazy load AdSense script
+        if (client && !document.querySelector('script[src*="adsbygoogle.js"]')) {
+            const script = document.createElement('script');
+            script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            document.head.appendChild(script);
+        }
+
         try {
             // @ts-ignore
             const adsbygoogle = window.adsbygoogle || [];
@@ -28,7 +37,7 @@ const AdUnit: React.FC<AdUnitProps> = ({
         } catch (e) {
             console.error('AdSense error:', e);
         }
-    }, []);
+    }, [client]);
 
     // Development placeholder or if client ID is missing
     if (import.meta.env.DEV || !client) {
