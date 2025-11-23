@@ -43,9 +43,9 @@ const AdUnit: React.FC<AdUnitProps> = ({
     if (import.meta.env.DEV || !client) {
         return (
             <div className={`flex flex-col items-center justify-center bg-gray-50 border border-dashed border-gray-200 rounded-xl p-4 w-full ${className}`} style={{ minHeight: '120px', ...style }}>
-                <span className="text-[10px] text-gray-400 uppercase tracking-widest mb-2">{label}</span>
-                <div className="text-xs text-gray-400 font-medium">Google AdSense Placeholder</div>
-                <div className="text-[10px] text-gray-300 mt-1 font-mono">Slot: {slot}</div>
+                <span className="text-[10px] text-gray-500 uppercase tracking-widest mb-2">{label}</span>
+                <div className="text-xs text-gray-500 font-medium">Google AdSense Placeholder</div>
+                <div className="text-[10px] text-gray-400 mt-1 font-mono">Slot: {slot}</div>
                 {!client && <div className="text-[10px] text-red-300 mt-1">Missing VITE_ADSENSE_CLIENT_ID</div>}
             </div>
         );

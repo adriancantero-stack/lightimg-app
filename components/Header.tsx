@@ -47,7 +47,7 @@ const Header: React.FC = () => {
         {/* Logo - Left */}
         <div className="flex items-center gap-2 z-20">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/logo.png" alt="Light IMG Logo" className="h-11 w-auto" />
+            <img src="/logo.png" alt="Light IMG Logo" className="h-11 w-auto" width="44" height="44" />
             <span className="font-semibold text-xl tracking-tight text-apple-dark">Light <span className="font-extrabold">IMG</span></span>
           </Link>
         </div>

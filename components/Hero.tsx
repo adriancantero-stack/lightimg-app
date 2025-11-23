@@ -66,8 +66,9 @@ const Hero: React.FC<HeroProps> = ({ onFilesSelected }) => {
             type="file"
             className="hidden"
             multiple
-            accept="image/png, image/jpeg, image/jpg, image/webp, image/heic, image/heif, image/avif, image/gif, image/bmp, image/svg+xml, image/tiff"
+            accept={Object.keys(ALLOWED_IMAGE_TYPES).join(',')}
             onChange={handleFileInput}
+            aria-label={t('hero.upload_aria_label') || "Upload images"}
           />
 
           <div className="py-16 px-8 flex flex-col items-center justify-center">
