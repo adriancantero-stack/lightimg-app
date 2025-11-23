@@ -50,8 +50,24 @@
     "howItWorks": {
         "title": "Como Funciona",
         "step1": "Envie suas imagens",
+        "step1Desc": "Basta arrastar e soltar suas imagens na área de upload. Suportamos os formatos PNG, JPG, WebP, HEIC, AVIF, GIF, BMP, SVG e TIFF. Seus arquivos são processados com segurança e nunca são armazenados permanentemente em nossos servidores.",
         "step2": "Nós comprimimos",
-        "step3": "Baixe arquivos otimizados"
+        "step2Desc": "Nosso algoritmo de compressão avançado analisa sua imagem para encontrar o equilíbrio perfeito entre tamanho do arquivo e qualidade visual. Usamos técnicas inteligentes de compressão com perdas que podem reduzir o tamanho do arquivo em até 80% sem perda de qualidade perceptível.",
+        "step3": "Baixe arquivos otimizados",
+        "step3Desc": "Assim que o processamento for concluído, você pode baixar suas imagens otimizadas instantaneamente. O nome do arquivo original é preservado com um prefixo para fácil identificação."
+    },
+    "faq": {
+        "title": "Perguntas Frequentes",
+        "items": {
+            "q1": "É gratuito?",
+            "a1": "Sim, o LightIMG é totalmente gratuito para todas as suas necessidades de compressão de imagem.",
+            "q2": "Minhas imagens estão seguras?",
+            "a2": "Absolutamente. Suas imagens são processadas com segurança e excluídas automaticamente de nossos servidores imediatamente após o processamento. Não armazenamos seu conteúdo.",
+            "q3": "Quais formatos vocês suportam?",
+            "a3": "Atualmente suportamos os formatos PNG, JPG, WebP, HEIC, AVIF, GIF, BMP, SVG e TIFF.",
+            "q4": "Existe um limite de tamanho de arquivo?",
+            "a4": "Sim, atualmente suportamos arquivos de até 100MB cada para garantir um processamento rápido para todos."
+        }
     },
     "privacy": {
         "title": "Política de Privacidade",

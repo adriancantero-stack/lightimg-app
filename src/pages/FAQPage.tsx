@@ -8,20 +8,20 @@ const FAQPage: React.FC = () => {
 
     const faqs = [
         {
-            q: "Is it free?",
-            a: "Yes, LightIMG is completely free to use for all your image compression needs."
+            q: t('faq.items.q1'),
+            a: t('faq.items.a1')
         },
         {
-            q: "Are my images safe?",
-            a: "Absolutely. Your images are processed securely and are automatically deleted from our servers immediately after processing. We do not store your content."
+            q: t('faq.items.q2'),
+            a: t('faq.items.a2')
         },
         {
-            q: "What formats do you support?",
-            a: "We currently support PNG, JPG, WebP, HEIC, AVIF, GIF, BMP, SVG, and TIFF formats."
+            q: t('faq.items.q3'),
+            a: t('faq.items.a3')
         },
         {
-            q: "Is there a file size limit?",
-            a: "Yes, currently we support files up to 100MB each to ensure fast processing for everyone."
+            q: t('faq.items.q4'),
+            a: t('faq.items.a4')
         }
     ];
 
@@ -29,7 +29,7 @@ const FAQPage: React.FC = () => {
         <div className="min-h-screen bg-white font-sans text-apple-text">
             <Header />
             <main className="pt-32 pb-20 px-6 max-w-3xl mx-auto">
-                <h1 className="text-4xl font-bold text-apple-dark mb-12">{t('header.faq')}</h1>
+                <h1 className="text-4xl font-bold text-apple-dark mb-12">{t('faq.title')}</h1>
                 <div className="space-y-8">
                     {faqs.map((faq, idx) => (
                         <div key={idx} className="border-b border-gray-100 pb-8 last:border-0">

@@ -17,8 +17,7 @@ const HowItWorksPage: React.FC = () => {
                         <div>
                             <h2 className="text-2xl font-semibold mb-2">{t('howItWorks.step1')}</h2>
                             <p className="text-gray-600 leading-relaxed">
-                                Simply drag and drop your images into the upload area. We support PNG, JPG, WebP, HEIC, AVIF, GIF, BMP, SVG, and TIFF formats.
-                                Your files are processed securely and are never stored permanently on our servers.
+                                {t('howItWorks.step1Desc')}
                             </p>
                         </div>
                     </div>
@@ -27,8 +26,7 @@ const HowItWorksPage: React.FC = () => {
                         <div>
                             <h2 className="text-2xl font-semibold mb-2">{t('howItWorks.step2')}</h2>
                             <p className="text-gray-600 leading-relaxed">
-                                Our advanced compression algorithm analyzes your image to find the perfect balance between file size and visual quality.
-                                We use smart lossy compression techniques that can reduce file size by up to 80% without noticeable quality loss.
+                                {t('howItWorks.step2Desc')}
                             </p>
                         </div>
                     </div>
@@ -37,8 +35,7 @@ const HowItWorksPage: React.FC = () => {
                         <div>
                             <h2 className="text-2xl font-semibold mb-2">{t('howItWorks.step3')}</h2>
                             <p className="text-gray-600 leading-relaxed">
-                                Once processing is complete, you can download your optimized images instantly.
-                                The original filename is preserved with a prefix for easy identification.
+                                {t('howItWorks.step3Desc')}
                             </p>
                         </div>
                     </div>
