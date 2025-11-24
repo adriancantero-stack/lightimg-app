@@ -9,6 +9,8 @@ import { CompressedFile } from '../../types';
 import { MAX_FILE_SIZE_BYTES, ALLOWED_IMAGE_TYPES } from '../constants';
 import { convertIfNeeded, needsConversion } from '../utils/imageConverter';
 
+import SEO from '../../components/SEO';
+
 // Use a unique ID generator
 const generateId = () => Math.random().toString(36).substr(2, 9);
 

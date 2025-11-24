@@ -3,11 +3,17 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useTranslation } from 'react-i18next';
 
+import SEO from '../../components/SEO';
+
 const ContactPage: React.FC = () => {
     const { t } = useTranslation();
 
     return (
         <div className="min-h-screen bg-white font-sans text-apple-text">
+            <SEO
+                title={t('contactPage.title')}
+                description={t('contactPage.subtitle')}
+            />
             <Header />
             <main className="pt-32 pb-20 px-6 max-w-2xl mx-auto text-center">
                 <h1 className="text-4xl font-bold text-apple-dark mb-8">{t('contactPage.title')}</h1>

@@ -3,11 +3,17 @@ import { useTranslation } from 'react-i18next';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
+import SEO from '../../components/SEO';
+
 const TermsPage: React.FC = () => {
     const { t } = useTranslation();
 
     return (
         <div className="min-h-screen bg-white font-sans text-apple-text">
+            <SEO
+                title={t('terms.title')}
+                description={t('terms.section1')}
+            />
             <Header />
             <main className="pt-32 pb-20 px-6 max-w-4xl mx-auto">
                 <h1 className="text-4xl font-bold text-apple-dark mb-8">{t('terms.title')}</h1>

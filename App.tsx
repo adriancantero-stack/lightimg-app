@@ -54,32 +54,36 @@ const RootRedirect = () => {
   return <Navigate to={`/${targetLang}`} replace />;
 };
 
+import { HelmetProvider } from 'react-helmet-async';
+
 const App: React.FC = () => {
   return (
-    <Router>
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route path="/" element={<RootRedirect />} />
+    <HelmetProvider>
+      <Router>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<RootRedirect />} />
 
-          <Route path="/:lang/*" element={
-            <LanguageWrapper>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/how-it-works" element={<HowItWorksPage />} />
-                <Route path="/faq" element={<FAQPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </LanguageWrapper>
-          } />
+            <Route path="/:lang/*" element={
+              <LanguageWrapper>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/how-it-works" element={<HowItWorksPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
+                  <Route path="/terms" element={<TermsPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </LanguageWrapper>
+            } />
 
-          {/* Catch all for non-lang paths, redirect to root which then redirects to lang */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
-    </Router>
+            {/* Catch all for non-lang paths, redirect to root which then redirects to lang */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </Router>
+    </HelmetProvider>
   );
 };
 

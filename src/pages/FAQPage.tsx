@@ -3,6 +3,8 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useTranslation } from 'react-i18next';
 
+import SEO from '../../components/SEO';
+
 const FAQPage: React.FC = () => {
     const { t } = useTranslation();
 
@@ -27,6 +29,10 @@ const FAQPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-white font-sans text-apple-text">
+            <SEO
+                title={t('faq.title')}
+                description={t('faq.items.a1')}
+            />
             <Header />
             <main className="pt-32 pb-20 px-6 max-w-3xl mx-auto">
                 <h1 className="text-4xl font-bold text-apple-dark mb-12">{t('faq.title')}</h1>
