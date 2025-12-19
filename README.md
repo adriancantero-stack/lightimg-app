@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![LightIMG Banner](https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6)
+
 
 **A modern, fast, and privacy-focused image compression web application**
 
@@ -237,6 +237,43 @@ npm run check:all
 - ✅ CORS protection
 - ✅ Error handling
 - ✅ Type-safe codebase
+
+---
+
+
+---
+
+## 🏗️ System Architecture
+
+<div align="center">
+
+```mermaid
+graph TD
+    User[👤 User] -->|1. Upload Image| Client[💻 React Frontend]
+    Client -->|2. Send File| server[🚀 Express Server]
+    server -->|3. Compress/Convert| Sharp[⚡ Sharp Engine]
+    Sharp -->|4. Return Optimized Buffer| server
+    server -->|5. Send Blob| Client
+    Client -->|6. Download| User
+    
+    subgraph "Privacy Shield 🛡️"
+    server
+    Sharp
+    end
+    
+    style User fill:#f9f,stroke:#333,stroke-width:2px
+    style Client fill:#61dafb,stroke:#333,stroke-width:2px,color:black
+    style server fill:#68a063,stroke:#333,stroke-width:2px,color:white
+    style Sharp fill:#ff9900,stroke:#333,stroke-width:2px,color:black
+```
+
+</div>
+
+**Architecture Highlights:**
+- **Client-Side:** Handles UI state, drag-and-drop, and real-time progress updates.
+- **Server:** Ephemeral Express instance that streams data directly to the compression engine.
+- **Processing:** Uses `sharp` (libvips) for high-performance, multi-threaded image manipulation.
+- **Security:** Strict memory limits and automatic garbage collection ensure no data persistence.
 
 ---
 
